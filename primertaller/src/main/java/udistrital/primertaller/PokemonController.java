@@ -1,5 +1,7 @@
 package udistrital.primertaller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +14,14 @@ import java.util.List;
 @RequestMapping("/pokemon")
 public class PokemonController {
 
-    public ResponseEntity<List<PokemonDTO>> obtenerPokemon(@PathVariable int id){
-        return null;
+    private PokemonService pokemonService;
+
+    public PokemonController(PokemonService pokemonService) {
+        this.pokemonService = pokemonService;
+    }
+
+    @GetMapping("/{name}")
+    public ResponseEntity<PokemonDTO> obtenerPokemon(@PathVariable String name){
+        return new ResponseEntity<>(pokemonService.obtenerPokemon(name), HttpStatus.OK);
     }
 }
