@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/pokemon")
 public class PokemonController {
 
@@ -20,8 +20,11 @@ public class PokemonController {
         this.pokemonService = pokemonService;
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<PokemonDTO> obtenerPokemon(@PathVariable String name){
-        return new ResponseEntity<>(pokemonService.obtenerPokemon(name), HttpStatus.OK);
+    @GetMapping("/view/{name}")
+    public String mostrarPokemon(@PathVariable String name, Model model) {
+        PokemonDTO pokemon = pokemonService.obtenerPokemon(name);
+        model.addAttribute("pokemon", pokemon);
+        return "pokemon"; // El nombre de la plantilla HTML a usar
     }
 }
+
